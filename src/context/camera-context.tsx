@@ -9,8 +9,8 @@ import "@/components/styles.css";
 export const CameraContext = createContext<{
   cameraOpen: boolean;
   setCameraOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  image: string;
-  setImage: React.Dispatch<React.SetStateAction<string>>;
+  image: string | ImageData;
+  setImage: React.Dispatch<React.SetStateAction<string | ImageData>>;
 }>({
   cameraOpen: false,
   setCameraOpen: () => {},
@@ -19,9 +19,9 @@ export const CameraContext = createContext<{
 });
 
 export function CameraProvider({ children }: { children: React.ReactNode }) {
-  const camera = useRef(null);
+  const camera = useRef<CameraType>(null);
   const [cameraOpen, setCameraOpen] = useState(false);
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<string | ImageData>("");
   const [numberOfCameras, setNumberOfCameras] = useState(0);
 
   return (

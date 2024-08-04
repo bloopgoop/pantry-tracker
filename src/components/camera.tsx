@@ -12,8 +12,8 @@ function CameraComponent({
 }: {
   closeCamera: () => void;
 }) {
-  const camera = useRef(null);
-  const [image, setImage] = useState("");
+  const camera = useRef<CameraType>(null);
+  const [image, setImage] = useState<string | ImageData>("");
   const [numberOfCameras, setNumberOfCameras] = useState(0);
 
   return (
@@ -38,7 +38,7 @@ function CameraComponent({
         </Button>
 
         <Image
-          src={image || "/headphonePlush.jpg"}
+          src={image as string || "/headphonePlush.jpg"}
           alt="cam"
           className="image-preview"
           width={500}

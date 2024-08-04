@@ -9,8 +9,6 @@ import ReactMarkdown from "react-markdown";
 import { components } from "@/react-markdown";
 import { InventorySkeleton } from "@/components/inventory/inventory-skeleton";
 import { Button } from "@mui/material";
-import { getAuth } from "firebase/auth";
-import { app } from "@/firebase";
 import { suggestRecipe, readItems, Item } from "./actions";
 import { Suspense } from "react";
 import { useCamera, useAuth } from "@/app/providers";

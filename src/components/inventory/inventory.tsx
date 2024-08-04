@@ -39,6 +39,7 @@ interface EditToolbarProps {
     newModel: (oldModel: GridRowModesModel) => GridRowModesModel
   ) => void;
   setCameraOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  user: any;
 }
 
 function EditToolbar(props: EditToolbarProps) {
@@ -272,7 +273,7 @@ export default function Pantry({
           </Typography>
           <Box sx={{ position: "relative", width: 300, height: 300 }}>
             <Image
-              src={image}
+              src={image as string}
               alt="cam"
               width={0}
               height={0}
@@ -299,7 +300,7 @@ export default function Pantry({
             <Button
               variant="contained"
               onClick={() =>
-                crud.classifyImage(image).then((res) => console.log(res))
+                crud.classifyImage(image as string).then((res) => console.log(res))
               }
             >
               Use this photo
