@@ -25,9 +25,8 @@ import {
   GridSlots,
   GridToolbarQuickFilter,
 } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
 import { Typography } from "@mui/material";
-import { useCamera, useAuth } from "@/app/providers";
+import { useCamera } from "@/app/providers";
 import * as crud from "@/app/actions";
 
 interface ItemRowType extends crud.Item {
@@ -43,8 +42,7 @@ interface EditToolbarProps {
 }
 
 function EditToolbar(props: EditToolbarProps) {
-  const { setRows, setRowModesModel, setCameraOpen } = props;
-  const { user } = useAuth();
+  const { setRows, setRowModesModel, setCameraOpen, user } = props;
 
   const handleClick = async () => {
     const id = await crud.createItem({ name: "", amount: 0 }, user.uid);
@@ -83,25 +81,19 @@ function EditToolbar(props: EditToolbarProps) {
   );
 }
 
-export default function Pantry() {
-  const [rows, setRows] = useState<ItemRowType[]>([]);
+export default function Pantry({
+  rows,
+  setRows,
+  user,
+}: {
+  rows: ItemRowType[];
+  setRows: React.Dispatch<React.SetStateAction<ItemRowType[]>>;
+  user: any;
+}) {
   const [rowModesModel, setRowModesModel] = React.useState<GridRowModesModel>(
     {}
   );
   const { cameraOpen, setCameraOpen, image, setImage } = useCamera();
-  const { user } = useAuth();
-  // console.log(image);
-
-  useEffect(() => {
-    if (!user) {
-      return;
-    }
-    const fetchData = async () => {
-      const items = await crud.readItems(user.uid);
-      setRows(items);
-    };
-    fetchData();
-  }, [user]);
 
   const handleRowEditStop: GridEventListener<"rowEditStop"> = (
     params,
@@ -234,7 +226,7 @@ export default function Pantry() {
             loadingOverlay: {
               variant: "skeleton",
               noRowsVariant: "skeleton",
-            }
+            },
           }}
           columns={columns}
         />
@@ -328,7 +320,7 @@ export default function Pantry() {
           toolbar: EditToolbar as GridSlots["toolbar"],
         }}
         slotProps={{
-          toolbar: { setRows, setRowModesModel, setCameraOpen },
+          toolbar: { setRows, setRowModesModel, setCameraOpen, user },
         }}
       />
     </Box>
